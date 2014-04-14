@@ -208,15 +208,15 @@
   };
   //check its constructor for a better management
 
-  Email.prototype.addFileFromBuffer = function (buffer, filename) {
+  Email.prototype.addFileFromBuffer = function (filename, buffer) {
     this.addFileFromStream(buffer.toString(), filename);
   };
 
-  Email.prototype.addFileFromStream = function (str, filename) {
+  Email.prototype.addFileFromStream = function (filename, str) {
     this.body['files[' + filename + ']'] = str;
   };
 
-  Email.prototype.addFile = function (file, filename, cb) {
+  Email.prototype.addFile = function (filename, file, cb) {
     var promise;
     if (Parse.Promise) {
       promise = new Parse.Promise();
