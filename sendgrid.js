@@ -294,7 +294,7 @@
     };
 
     //Priviledged / Protected
-    this.send = function (email, options) {
+    this.send = function (email, cb) {
       var promise;
       if (Parse.Promise) {
         promise = new Parse.Promise();
