@@ -207,18 +207,42 @@
     this.body.date = date;
   };
   //check its constructor for a better management
+
   Email.prototype.addFileFromBuffer = function (buffer, filename) {
     this.addFileFromStream(buffer.toString(), filename);
   };
 
   Email.prototype.addFileFromStream = function (str, filename) {
-    this.header['files[' + filename + ']'] = str;
+    this.body['files[' + filename + ']'] = str;
   };
 
-  Email.prototype.addFile = function (file, filename) {
-    Parse.Cloud.httpRequest({url: file.url()}).then(function(res) {
-      this.addFileFromBuffer(res.buffer, filename);
+  Email.prototype.addFile = function (file, filename, cb) {
+    var promise;
+    if (Parse.Promise) {
+      promise = new Parse.Promise();
+    } else {
+      promise = {
+        resolve: function() {},
+        reject: function() {}
+      };
+    }
+    var self = this;
+    Parse.Cloud.httpRequest({url: file.url(),
+      success: function (res) {
+        self.addFileFromBuffer(res.buffer, filename);
+        if (cb && cb.success) {
+          cb.success();
+        }
+        promise.resolve();
+      },
+      error: function (res) {
+        if (cb && cb.error) {
+          cb.error(res);
+        }
+        promise.reject(res);
+      }
     });
+    return promise;
   };
 
   Email.prototype.setHeaders = function(header) {
@@ -270,7 +294,7 @@
     };
 
     //Priviledged / Protected
-    this.send = function (email, cb) {
+    this.send = function (email, options) {
       var promise;
       if (Parse.Promise) {
         promise = new Parse.Promise();
@@ -286,14 +310,14 @@
         url: options.uri,
         params: _buildBody(email),
         success: function(httpResponse) {
-          if (options && options.success) {
-            options.success(httpResponse);
+          if (cb && cb.success) {
+            cb.success(httpResponse);
           }
           promise.resolve(httpResponse);
         },
         error: function(httpResponse) {
-          if (options && options.error) {
-            options.error(httpResponse);
+          if (cb && cb.error) {
+            cb.error(httpResponse);
           }
           promise.reject(httpResponse);
         }
