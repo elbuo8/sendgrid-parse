@@ -21,7 +21,7 @@
 (function() {
 
   /*
-  SMTPAPI Library for AppC
+  SMTPAPI Library for Parse
   */
 
   function smtpapi(header) {
@@ -118,7 +118,7 @@
   };
 
   /*
-  SendGrid.Email implementation for AppC
+  SendGrid.Email implementation for Parse
   */
 
   function Email(mail) {
