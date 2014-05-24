@@ -250,7 +250,7 @@
     var body = {};
     for (var key in this.body) {
       if (this.body.hasOwnProperty(key) && this.body[key]) {
-        if (this.body[key] instanceof Array && this.body[key].length === 0) {
+        if (Array.isArray(this.body[key]) && this.body[key].length === 0) {
           continue;
         }
         body[key] = this.body[key];
