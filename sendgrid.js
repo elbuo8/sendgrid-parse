@@ -287,15 +287,7 @@
 
     //Priviledged / Protected
     this.send = function (email, cb) {
-      var promise;
-      if (Parse.Promise) {
-        promise = new Parse.Promise();
-      } else {
-        promise = {
-          resolve: function() {},
-          reject: function() {}
-        };
-      }
+      var promise = new Parse.Promise();
 
       Parse.Cloud.httpRequest({
         method: options.method,
