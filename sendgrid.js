@@ -209,7 +209,7 @@
   //check its constructor for a better management
 
   Email.prototype.addFileFromBuffer = function (filename, buffer) {
-    this.addFileFromStream(buffer.toString(), filename);
+    this.addFileFromStream(filename, buffer.toString());
   };
 
   Email.prototype.addFileFromStream = function (filename, str) {
@@ -217,19 +217,11 @@
   };
 
   Email.prototype.addFile = function (filename, file, cb) {
-    var promise;
-    if (Parse.Promise) {
-      promise = new Parse.Promise();
-    } else {
-      promise = {
-        resolve: function() {},
-        reject: function() {}
-      };
-    }
+    var promise = new Parse.Promise();
     var self = this;
     Parse.Cloud.httpRequest({url: file.url(),
       success: function (res) {
-        self.addFileFromBuffer(res.buffer, filename);
+        self.addFileFromBuffer(filename, res.buffer);
         if (cb && cb.success) {
           cb.success();
         }
