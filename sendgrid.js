@@ -36,7 +36,7 @@
   }
 
   smtpapi.prototype.addTo = function(to) {
-    if (to instanceof Array) {
+    if (Array.isArray(to)) {
       this.header.to = this.header.to.concat(to);
     } else {
       this.header.to.push(to);
@@ -44,7 +44,7 @@
   };
 
   smtpapi.prototype.setTos = function(to) {
-    if (to instanceof Array) {
+    if (Array.isArray(to)) {
       this.header.to = to;
     } else {
       this.header.to = [to];
@@ -53,7 +53,7 @@
 
   smtpapi.prototype.addSubstitution = function(key, val) {
     if (this.header.sub[key] === undefined) this.header.sub[key] = [];
-    if (val instanceof Array) {
+    if (Array.isArray(val)) {
       this.header.sub = this.header.sub[key].concat(val);
     } else {
       this.header.sub[key].push(val);
@@ -73,7 +73,7 @@
   };
 
   smtpapi.prototype.addCategory = function(cat) {
-    if (cat instanceof Array) {
+    if (Array.isArray(cat)) {
       this.header.category.concat(cat);
     } else {
       this.header.category.push(cat);
@@ -81,7 +81,7 @@
   };
 
   smtpapi.prototype.setCategories = function(cats) {
-    if (cats instanceof Array) {
+    if (Array.isArray(cats)) {
       this.header.category = cats;
     } else {
       this.header.category = [cats];
@@ -150,8 +150,8 @@
 
   Email.prototype.addTo = function(email) {
     smtpapi.prototype.addTo.call(this, email);
-    if (email instanceof Array) {
-      for(var i = 0, len = email.length; i < len; i++) {
+    if (Array.isArray(email)) {
+      for (var i = 0, len = email.length; i < len; i++) {
         this.body['to[' + this.toCounter++ +']'] = email[i];
       }
     } else {
@@ -160,8 +160,8 @@
   };
 
   Email.prototype.addToName = function(name) {
-    if (name instanceof Array) {
-      for(var i = 0, len = name.length; i < len; i++) {
+    if (Array.isArray(name)) {
+      for (var i = 0, len = name.length; i < len; i++) {
         this.body['toname[' + this.tonameCounter++ +']'] = name[i];
       }
     } else {
@@ -170,8 +170,8 @@
   };
 
   Email.prototype.addBcc = function(bcc) {
-    if (bcc instanceof Array) {
-      for(var i = 0, len = bcc.length; i < len; i++) {
+    if (Array.isArray(bcc)) {
+      for (var i = 0, len = bcc.length; i < len; i++) {
         this.body['bcc[' + this.bccCounter++ + ']'] = bcc[i];
       }
     } else {
