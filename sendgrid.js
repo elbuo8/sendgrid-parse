@@ -291,8 +291,9 @@
 
       Parse.Cloud.httpRequest({
         method: options.method,
-        url: options.uri,
-        params: _buildBody(email),
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+				url: options.uri,
+        body: _buildBody(email),
         success: function(httpResponse) {
           if (cb && cb.success) {
             cb.success(httpResponse);
